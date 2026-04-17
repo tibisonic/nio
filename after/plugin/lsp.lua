@@ -16,10 +16,10 @@ vim.keymap.set("n", "<space>qq", "<CMD>ccl<CR>")
 
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "cssls", "html", "grammarly", "rust_analyzer", "lua_ls", "intelephense", "volar", "ts_ls" }
+  ensure_installed = { "cssls", "html", "grammarly", "rust_analyzer", "lua_ls", "intelephense", "ts_ls" }
 })
 
-require 'lspconfig'.ts_ls.setup {
+vim.lsp.config('ts_ls', {
   init_options = {
     plugins = {
       {
@@ -34,7 +34,7 @@ require 'lspconfig'.ts_ls.setup {
     "typescript",
     "vue",
   },
-}
+})
 
 -- format on save
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -52,4 +52,4 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end
 })
 
-require 'lspconfig'.dartls.setup {}
+vim.lsp.config('dartls', {})

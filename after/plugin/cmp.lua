@@ -65,15 +65,19 @@ cmp.setup.cmdline(':', {
   matching = { disallow_symbol_nonprefix_matching = false }
 })
 
--- Set up lspconfig.
+-- Set up vim.lsp.config.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-require('lspconfig')['pyright'].setup {
-  capabilities = capabilities
-}
-require('lspconfig')['lua_ls'].setup {
-  capabilities = capabilities
-}
-require('lspconfig')['ts_ls'].setup {
-  capabilities = capabilities
-}
+
+-- Define the servers you want to use
+local servers = { 'pyright', 'lua_ls', 'ts_ls' }
+
+-- Loop through and configure/enable each server
+for _, lsp in ipairs(servers) do
+  -- 1. Configure the server (replacing the old .setup method)
+  vim.lsp.config(lsp, {
+    capabilities = capabilities,
+  })
+  
+  -- 2. Explicitly enable the server for the new Nvim 0.11 API
+  vim.lsp.enable(lsp)
+end
