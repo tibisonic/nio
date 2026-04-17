@@ -1,3 +1,4 @@
+local bufopts = { noremap = true, silent = true, buffer = bufnr }
 vim.keymap.set("n", "gd", vim.lsp.buf.definition)
 vim.keymap.set("n", "gr", vim.lsp.buf.references)
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration)
@@ -8,12 +9,14 @@ vim.keymap.set("n", "ff", vim.lsp.buf.format)
 vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename)
 vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action)
 
+vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, bufopts)
+
 -- Quickfix
 vim.keymap.set("n", "<space>qq", "<CMD>ccl<CR>")
 
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "cssls", "html", "grammarly", "rust_analyzer", "lua_ls" }
+  ensure_installed = { "cssls", "html", "grammarly", "rust_analyzer", "lua_ls", "intelephense", "volar", "ts_ls" }
 })
 
 require 'lspconfig'.pyright.setup {}
@@ -22,17 +25,42 @@ require 'lspconfig'.volar.setup {}
 require 'lspconfig'.html.setup {}
 require 'lspconfig'.clangd.setup {}
 -- require'lspconfig'.phpactor.setup{}
-require 'lspconfig'.intelephense.setup({
-  settings = {
-    intelephense = {
-      environment = {
-        phpVersion = "8.4.1"
+require 'lspconfig'.intelephense.setup {}
+--   settings = {
+--     intelephense = {
+--       environment = {
+--         phpVersion = "8.4.1"
+--       },
+--     }
+--   }
+-- })
+require 'lspconfig'.ts_ls.setup {
+  init_options = {
+    plugins = {
+      {
+        name = "@vue/typescript-plugin",
+        location = "/usr/local/lib/node_modules/@vue/typescript-plugin",
+        languages = { "javascript", "typescript", "vue" },
       },
-    }
-  }
-})
-require 'lspconfig'.ts_ls.setup {}
+    },
+  },
+  filetypes = {
+    "javascript",
+    "typescript",
+    "vue",
+  },
+}
 require 'lspconfig'.smarty_ls.setup {}
+require 'lspconfig'.volar.setup {
+  -- add filetypes for typescript, javascript and vue
+  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+  init_options = {
+    vue = {
+      -- disable hybrid mode
+      hybridMode = false,
+    },
+  },
+}
 
 -- format on save
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -49,3 +77,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
   end
 })
+
+vim.lsp.enable('dartls')
+require 'lspconfig'.dartls.setup {}
