@@ -19,21 +19,6 @@ require("mason-lspconfig").setup({
   ensure_installed = { "cssls", "html", "grammarly", "rust_analyzer", "lua_ls", "intelephense", "volar", "ts_ls" }
 })
 
-require 'lspconfig'.pyright.setup {}
-require 'lspconfig'.lua_ls.setup {}
-require 'lspconfig'.volar.setup {}
-require 'lspconfig'.html.setup {}
-require 'lspconfig'.clangd.setup {}
--- require'lspconfig'.phpactor.setup{}
-require 'lspconfig'.intelephense.setup {}
---   settings = {
---     intelephense = {
---       environment = {
---         phpVersion = "8.4.1"
---       },
---     }
---   }
--- })
 require 'lspconfig'.ts_ls.setup {
   init_options = {
     plugins = {
@@ -48,17 +33,6 @@ require 'lspconfig'.ts_ls.setup {
     "javascript",
     "typescript",
     "vue",
-  },
-}
-require 'lspconfig'.smarty_ls.setup {}
-require 'lspconfig'.volar.setup {
-  -- add filetypes for typescript, javascript and vue
-  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-  init_options = {
-    vue = {
-      -- disable hybrid mode
-      hybridMode = false,
-    },
   },
 }
 
@@ -78,5 +52,4 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end
 })
 
-vim.lsp.enable('dartls')
 require 'lspconfig'.dartls.setup {}
