@@ -16,7 +16,7 @@ vim.keymap.set("n", "<space>qq", "<CMD>ccl<CR>")
 
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "cssls", "html", "grammarly", "rust_analyzer", "lua_ls", "intelephense", "ts_ls" }
+  ensure_installed = { "cssls", "html", "marksman", "rust_analyzer", "lua_ls", "intelephense", "ts_ls" }
 })
 
 vim.lsp.config('ts_ls', {
@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     if not client then return end
-    if client.supports_method('textDocument/formatting') then
+    if client:supports_method('textDocument/formatting') then
       vim.api.nvim_create_autocmd('BufWritePre', {
         buffer = args.buf,
         callback = function()
